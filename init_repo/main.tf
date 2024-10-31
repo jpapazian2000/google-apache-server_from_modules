@@ -46,7 +46,8 @@ resource "tfe_workspace" "ubuntu_workspace" {
       "infra",
       "ubuntu",
       "google",
-      "modules"
+      "modules",
+      "sentinel"
     ]
     assessments_enabled = true
     trigger_prefixes = ["/workspace_repo"]
