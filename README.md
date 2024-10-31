@@ -17,9 +17,9 @@ packer validate .
 packer build .
 ````
 
-From there, next step would be to clone the github repo, and ```cd init_repo````
+From there, next step would be to clone the github repo, and ```cd init_repo```
 You are now going to provision the environment in HCP Terraform.
-For this you need a token, that you can obtain with ```terraform login````
+For this you need a token, that you can obtain with ```terraform login```
 Next create a ```terraform.auto.tfvars``` file in this folder and add the following content:
 ````
 tfe_token = <the token from above>
