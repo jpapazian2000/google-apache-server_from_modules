@@ -49,6 +49,7 @@ resource "tfe_workspace" "ubuntu_workspace" {
       "modules"
     ]
     assessments_enabled = true
+    trigger_prefixes = ["/workspace_repo"]
 }
 
 resource "tfe_variable" "allowed_ip" {
