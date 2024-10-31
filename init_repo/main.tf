@@ -50,6 +50,29 @@ resource "tfe_workspace" "ubuntu_workspace" {
     ]
     assessments_enabled = true
     trigger_prefixes = ["/workspace_repo"]
+    working_directory = "/workspace_repo"
+}
+
+data "tfe_policy_set" "gcp_simple_policy" {
+  name         = "sentinel_simple_gcp_project"
+  organization = "jpapazian-org"
+}
+
+resource "tfe_workspace_policy_set" "sentinel_gcp_policy" {
+  policy_set_id = data.tfe_policy_set.gcp_simple_policy.id
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
+}
+
+data "tfe_organization_run_task" "packer" {
+  name         = "Packer"
+  organization = "jpapazian-org"
+}
+
+resource "tfe_workspace_run_task" "packer" {
+  workspace_id      = tfe_workspace.ubuntu_workspace.id
+  task_id           = data.tfe_organization_run_task.packer.id
+  enforcement_level = "mandatory"
+  stages = ["post_plan"]
 }
 
 resource "tfe_variable" "allowed_ip" {
