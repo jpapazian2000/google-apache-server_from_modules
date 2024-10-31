@@ -2,7 +2,7 @@
 
 
 There are a couple of things for this demo to work
-First you need to have an HCP Account and provision an HCP PAcker image.
+First you need to have an HCP Account and provision an HCP Packer image.
 As the demo is focused on google, on my side, I have created an image in google cloud with packer.
 The packer file is in the following git repo:
 - gcp_ubuntu.pkr.hcl
@@ -14,7 +14,7 @@ In order to provision this image, you have to do a couple of settings:
 ````
 packer init
 packer validate .
-packer build.
+packer build .
 ````
 
 From there, next step would be to clone the github repo, and ```cd init_repo````
