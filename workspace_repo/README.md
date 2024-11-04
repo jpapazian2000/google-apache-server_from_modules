@@ -53,4 +53,4 @@ google_project
 google_region
 google_zone
 ````
-2. For this demo to work...it should be in an initial **`#FF00FF WRONG STATE`** 
+2. For this demo to work...it should be in an initial **`#FF0000` WRONG STATE** 
