@@ -53,4 +53,11 @@ google_project
 google_region
 google_zone
 ````
-2. For this demo to work...it should be in an initial **$${\color{red}WRONG STATE}$$** 
+2. For this demo to work...it should be in an initial **WRONG STATE:**
+   - Set the following variables (in the HCP Terraform variables):
+     - `machine_type`= `n1-standard-2`
+     - `sysops_info`= `{ "APPLI1 DEV AZURE" : "LOW", "APPLI3 DEV AZURE" : "HIGH" }`
+   - Change the following code in your favorite code editor in the `main.tf` file of the `workspace_repo` subfolder:
+     - uncomment lines 7 to 9 (`required_providers`block for kubernetes)
+     - uncomment lines 21 to 27 (declares an unauthorized provider and modules) 
+ 
