@@ -18,13 +18,13 @@ provider "google" {
   zone    = var.google_zone
 }
 
-#provider "kubernetes" {
+provider "kubernetes" {
    #Configuration options
-#}
-#module "uuid" {
-  #source  = "Kalepa/uuid/random"
-  #version = "0.2.1"
-#}
+}
+module "uuid" {
+  source  = "Kalepa/uuid/random"
+  version = "0.2.1"
+}
 
 provider "hcp" {}
 
