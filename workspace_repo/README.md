@@ -43,4 +43,14 @@ terraform apply -auto-approve
 This will create a workspace ```another_google_ubuntu_workspace``` in the project ```dyn_creds_gcp``` (workspace name has been provided in the terraform variables default values, feel free to change if needed.)
 
 You can now in your HCP Terraform go in this workspace and provision a run. 
-Workflow to leverage all assets will follow
+
+# Main Steps for the demo
+
+## Preparation
+1. Make sur you have a variable with your google credentials. On my side, I have created a variable_set `GOOGLE_CREDENTIALS` with all 3 variables:
+````
+google_project
+google_region
+google_zone
+````
+2. For this demo to work...it should be in an initial **`#FF0000`WRONG STATE** 

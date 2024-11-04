@@ -69,9 +69,15 @@ data "tfe_organization_run_task" "packer" {
   organization = "jpapazian-org"
 }
 
+#resource "tfe_organization_run_task" "packer" {
+  #workspace_id      = tfe_workspace.ubuntu_workspace.id
+  #task_id           = data.tfe_organization_run_task.packer.id
+  #enforcement_level = "mandatory"
+  #stages = ["post_plan"]
+#}
 resource "tfe_workspace_run_task" "packer" {
-  workspace_id      = tfe_workspace.ubuntu_workspace.id
-  task_id           = data.tfe_organization_run_task.packer.id
+  workspace_id = tfe_workspace.ubuntu_workspace.id
+  task_id = data.tfe_organization_run_task.packer.id
   enforcement_level = "mandatory"
   stages = ["post_plan"]
 }
