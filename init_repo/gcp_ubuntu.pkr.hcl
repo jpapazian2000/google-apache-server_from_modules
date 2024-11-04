@@ -12,7 +12,7 @@ packer {
 #}
 variable "project_id" {
   type    = string
-  default = "hc-b1509b0461a5452ca206af1c3b2"
+  default = "hc-ed4fd9b5ba13459aa83e020e500"
 }
 
 variable "zone" {
@@ -20,6 +20,10 @@ variable "zone" {
   default = "europe-west9-a"
 }
 
+variable "customer" {
+  type    = string
+  default = "SOME-COMPANY.COM"
+}
 
 
 source "googlecompute" "test-image" {
@@ -60,7 +64,7 @@ build {
       "sudo apt-get install -y apache2",
       "sudo systemctl start apache2",
       "sudo systemctl enable apache2",
-      "echo \"<h1>Terraform Ready for AFKLM VERSION 4.0</h1>\" | sudo tee /var/www/html/index.html",
+      "echo \"<h1>Terraform Ready for ${var.customer} VERSION 4.0</h1>\" | sudo tee /var/www/html/index.html",
     ]
   }
 }
