@@ -55,9 +55,36 @@ google_zone
 ````
 2. For this demo to work...it should be in an initial **WRONG STATE:**
    - Set the following variables (in the HCP Terraform variables):
-     - `machine_type`= `n1-standard-2`
-     - `sysops_info`= `{ "APPLI1 DEV AZURE" : "LOW", "APPLI3 DEV AZURE" : "HIGH" }`
+     - `machine_type` = `n1-standard-2`
+     - `sysops_info` = `{ "APPLI1 DEV AZURE" : "LOW", "APPLI3 DEV AZURE" : "HIGH" }`
    - Change the following code in your favorite code editor in the `main.tf` file of the `workspace_repo` subfolder:
-     - uncomment lines 7 to 9 (`required_providers`block for kubernetes)
-     - uncomment lines 21 to 27 (declares an unauthorized provider and modules) 
- 
+     - uncomment lines 7 to 9 (`required_providers` block for kubernetes)
+     - uncomment lines 21 to 27 (declares an unauthorized provider and modules). *DO NOT COMMIT YET THE CODE TO YOUR VCS* 
+   - You also need to create at least 2 versions of your packer image. On my side, I have also created 2 channels (on top of the existing `latest`): `prod` and `dev`
+     - Then I move the oldest version to channel `prod` and I revoke it (in 1mn)
+
+We're now all set!
+The demo runs as follow:
+1. go back to your editor where you modified your code, and add/commit/push to your git repo:
+````
+git add .
+git commit -m "initial provisionning"
+git push -u origin main
+````
+A provisionning should start in HCP Terraform. If that's the first one, it should just push the code and populate the variables, and you will have to ***manually** trigger a `terraform run` to see the provisionning.
+The provisionning should fail because of the `HCP Packer run task` notifying you that the version you want to deploy is revoked and a newer is available.
+
+2. Go in HCP Packer, and assign the most recent version to your `prod` channel. Then execute the `terraform run` again.
+It should go fine through the `post plan` phase, and it should stop at the `sentinel policies` phase.
+The policies are the following:
+   - `restrict use of only autorized providers: HARD-MANDATORY` : will prevent the apply if any none authorized providers are used (default allowed: `hcp` and `google`. The modules uses : `kubernetes` as well which is not allowed)
+   - `makes sure that all mandatory labels are present: SOFT-MANDATORY`: the ubuntu image created declares 2 labels : 
+   - `requires all modules to be called from private registry only: HARD-MANDATORY`: will prevent the apply if any public modules are used (the code uses: `"Kalepa/uuid/random"` which is public)  
+Correct them one at a time, and trigger a `terraform run` after each change. For the modules and provider policies, and git add/commit/push to show a full VCS workflow.
+For the last sentinel policy `servicenow`, it is a soft-mandatory one. Whether you do not want to show such integration, or you want to demo the `soft-mandatory` execution mode you can do either.
+
+3. I tend also to leverage the HCP Terraform `explorer saved views` very recent announcement.
+   -  For this, I craft a request on all workspaces with the `infra_module` version equal to 1.1.0.
+   - Then I create a new version of my module (let's say the actual version is `1.1.0` then I create `1.1.1`). In the terraform code for the module I reference explicitely the latest version of the gcp image used. To make sure of this, I manually increase a counter in the web page of my VM image `"echo \"<h1>Terraform Ready for ${var.customer} VERSION 4.0</h1>\"` 
+   It is the `VERSION 4.0` that I increase. 
+   That allows me to show all the modules where an old version of my image is provisionned. 

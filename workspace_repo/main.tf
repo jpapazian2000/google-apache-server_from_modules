@@ -18,13 +18,13 @@ provider "google" {
   zone    = var.google_zone
 }
 
-provider "kubernetes" {
+#provider "kubernetes" {
    #Configuration options
-}
-module "uuid" {
-  source  = "Kalepa/uuid/random"
-  version = "0.2.1"
-}
+#}
+#module "uuid" {
+#  source  = "Kalepa/uuid/random"
+#  version = "0.2.1"
+#}
 
 provider "hcp" {}
 
@@ -42,7 +42,6 @@ data "hcp_packer_artifact" "apache_gce" {
 
 module "gcp-network" {
     source = "app.terraform.io/jpapazian-org/network_module/google"
-    #version = "1.0.2"
     prefix = var.prefix
     subnet_prefix = var.subnet_prefix
     allowed_ip = var.allowed_ip
