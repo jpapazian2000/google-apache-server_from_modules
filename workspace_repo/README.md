@@ -4,7 +4,7 @@
 There are a couple of things for this demo to work
 First you need to have an HCP Account and provision an HCP Packer image.
 As the demo is focused on google, on my side, I have created an image in google cloud with packer.
-The packer file is in the following git repo:
+The packer file is in the following `init_repo` git repo:
 - gcp_ubuntu.pkr.hcl
 In order to provision this image, you have to do a couple of settings:
 1. create a google service account with proper access rights : https://developer.hashicorp.com/packer/integrations/hashicorp/googlecompute#running-outside-of-google-cloud
@@ -25,7 +25,6 @@ Next create a ```terraform.auto.tfvars``` file in this folder and add the follow
 tfe_token = <the token from above>
 sysops_info = "{ \"APPLI1 DEV AZURE\" : \"LOW\", \"APPLI2 DEV AZURE\" : \"HIGH\" }"
 oauth_token = <github oauth token for terraform to connect to github>
-
 gcp_project_id = <your gcp project id: hc-somenumber>
 ````
 Before you can run ```terraform init, plan, apply``` commands, one needs also to configure google credentials for the settings of the Workload Identity Federation between HCP Terraform and Google.
@@ -78,13 +77,14 @@ The provisionning should fail because of the `HCP Packer run task` notifying you
 It should go fine through the `post plan` phase, and it should stop at the `sentinel policies` phase.
 The policies are the following:
    - `restrict use of only autorized providers: HARD-MANDATORY` : will prevent the apply if any none authorized providers are used (default allowed: `hcp` and `google`. The modules uses : `kubernetes` as well which is not allowed)
-   - `makes sure that all mandatory labels are present: SOFT-MANDATORY`: the ubuntu image created declares 2 labels : 
+   - `makes sure that all mandatory labels are present: SOFT-MANDATORY`: the ubuntu image created declares 2 labels : `billing` and `department`. The policy requires that the label `BU` should also be declared. That's not the case, but soft-mandatory so at the end we will run the appy without modifying the code.
    - `requires all modules to be called from private registry only: HARD-MANDATORY`: will prevent the apply if any public modules are used (the code uses: `"Kalepa/uuid/random"` which is public)  
 Correct them one at a time, and trigger a `terraform run` after each change. For the modules and provider policies, and git add/commit/push to show a full VCS workflow.
 For the last sentinel policy `servicenow`, it is a soft-mandatory one. Whether you do not want to show such integration, or you want to demo the `soft-mandatory` execution mode you can do either.
 
 3. I tend also to leverage the HCP Terraform `explorer saved views` very recent announcement.
    -  For this, I craft a request on all workspaces with the `infra_module` version equal to 1.1.0.
+   ![screenshot](../images/tf_explorer_saved_views_example.png)
    - Then I create a new version of my module (let's say the actual version is `1.1.0` then I create `1.1.1`). In the terraform code for the module I reference explicitely the latest version of the gcp image used. To make sure of this, I manually increase a counter in the web page of my VM image `"echo \"<h1>Terraform Ready for ${var.customer} VERSION 4.0</h1>\"` 
    It is the `VERSION 4.0` that I increase. 
    That allows me to show all the modules where an old version of my image is provisionned. 
