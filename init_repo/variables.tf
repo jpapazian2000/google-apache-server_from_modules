@@ -53,7 +53,7 @@ variable "prefix" {
 
 variable "subnet_prefix" {
     description = "google subnet where vm will be instanciated"
-    default = "10.7.0.0/16"
+    default = "10.0.0.0/24"
 }
 
 variable "sysops_info" {
