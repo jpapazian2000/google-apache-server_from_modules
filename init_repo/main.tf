@@ -34,8 +34,9 @@ resource "tfe_oauth_client" "github_oauth_client" {
 }
 
 resource "tfe_workspace" "ubuntu_workspace" {
-    for_each = toset(var.hcpt_workspace_name)
-    name = each.key
+    #for_each = toset(var.hcpt_workspace_name)
+    #name = each.key
+    name = var.hcpt_workspace_name
     queue_all_runs = false
     vcs_repo {
         branch = "main"

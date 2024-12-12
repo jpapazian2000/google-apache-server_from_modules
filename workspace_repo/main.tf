@@ -52,7 +52,7 @@ module "gcp-infra" {
     #version = "1.0.6"
     machine_type = var.machine_type
     hcp_image = data.hcp_packer_artifact.apache_gce.external_identifier
-    subnetwork = module.gcp-network.vpc_subnetwork
+    subnetwork = module.gcp-network.vpc_subnetwork.id
     #subnet_id= module.gcp-network.vpc_subnet_id
     sysops_info = var.sysops_info
     prefix = var.prefix

@@ -18,9 +18,9 @@ variable "hcpt_project_name" {
 
 variable "hcpt_workspace_name" {
     description = "workspaces to create"
-    type = list(string)
+    #type = list(string)
     #default = ["google_ubuntu_workspace1","google_ubuntu_workspace2","google_ubuntu_workspace3"]
-    default = ["google_ubuntu_workspace1"]
+    default = "google_ubuntu_workspace1"
 }
 
 variable "oauth_token" {
