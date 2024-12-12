@@ -61,8 +61,8 @@ data "tfe_policy_set" "gcp_simple_policy" {
 }
 
 resource "tfe_workspace_policy_set" "sentinel_gcp_policy" {
-  for_each = toset(var.hcpt_workspace_name)
-  workspace_id  = tfe_workspace.ubuntu_workspace[each.key].id
+  #for_each = toset(var.hcpt_workspace_name)
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
   policy_set_id = data.tfe_policy_set.gcp_simple_policy.id
 }
 
@@ -78,16 +78,16 @@ data "tfe_organization_run_task" "packer" {
   #stages = ["post_plan"]
 #}
 resource "tfe_workspace_run_task" "packer" {
-  for_each = toset(var.hcpt_workspace_name)
-  workspace_id  = tfe_workspace.ubuntu_workspace[each.key].id
+  #for_each = toset(var.hcpt_workspace_name)
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
   task_id = data.tfe_organization_run_task.packer.id
   enforcement_level = "mandatory"
   stages = ["post_plan"]
 }
 
 resource "tfe_variable" "allowed_ip" {
-  for_each = toset(var.hcpt_workspace_name)
-  workspace_id  = tfe_workspace.ubuntu_workspace[each.key].id
+  #for_each = toset(var.hcpt_workspace_name)
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
   category = "terraform"
   key = "allowed_ip"
   value = var.allowed_ip
@@ -96,8 +96,8 @@ resource "tfe_variable" "allowed_ip" {
 }
 
 resource "tfe_variable" "machine_type" {
-  for_each = toset(var.hcpt_workspace_name)
-  workspace_id  = tfe_workspace.ubuntu_workspace[each.key].id
+  #for_each = toset(var.hcpt_workspace_name)
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
   category = "terraform"
   key = "machine_type"
   value = var.machine_type
@@ -105,24 +105,24 @@ resource "tfe_variable" "machine_type" {
 }
 
 resource "tfe_variable" "prefix" {
-  for_each = toset(var.hcpt_workspace_name)
-  workspace_id  = tfe_workspace.ubuntu_workspace[each.key].id
+  #for_each = toset(var.hcpt_workspace_name)
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
   category = "terraform"
   key = "prefix"
   value = var.prefix
 }
 
 resource "tfe_variable" "subnet_prefix" {
-  for_each = toset(var.hcpt_workspace_name)
-  workspace_id  = tfe_workspace.ubuntu_workspace[each.key].id
+  #for_each = toset(var.hcpt_workspace_name)
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
   category = "terraform"
   key = "subnet_prefix"
   value = var.subnet_prefix
 }
 
 resource "tfe_variable" "sysops_info" {
-  for_each = toset(var.hcpt_workspace_name)
-  workspace_id  = tfe_workspace.ubuntu_workspace[each.key].id
+  #for_each = toset(var.hcpt_workspace_name)
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
   category = "terraform"
   key = "sysops_info"
   value = var.sysops_info
@@ -141,14 +141,14 @@ data "tfe_variable_set" "google_credentials" {
 
 resource "tfe_workspace_variable_set" "hcp_credentials" {
   variable_set_id = data.tfe_variable_set.hcp_credentials.id
-  for_each = toset(var.hcpt_workspace_name)
-  workspace_id  = tfe_workspace.ubuntu_workspace[each.key].id
+  #for_each = toset(var.hcpt_workspace_name)
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
 }
 
 resource "tfe_workspace_variable_set" "google_credentials" {
   variable_set_id = data.tfe_variable_set.google_credentials.id
-  for_each = toset(var.hcpt_workspace_name)
-  workspace_id  = tfe_workspace.ubuntu_workspace[each.key].id
+  #for_each = toset(var.hcpt_workspace_name)
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
 }
 ###The following variables are the ones needed for the WIF integration with Google
 # The following variables must be set to allow runs
@@ -156,8 +156,8 @@ resource "tfe_workspace_variable_set" "google_credentials" {
 #
 # https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/variable
 resource "tfe_variable" "enable_gcp_provider_auth" {
-  for_each = toset(var.hcpt_workspace_name)
-  workspace_id  = tfe_workspace.ubuntu_workspace[each.key].id
+  #for_each = toset(var.hcpt_workspace_name)
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
 
   key      = "TFC_GCP_PROVIDER_AUTH"
   value    = "true"
@@ -173,8 +173,8 @@ resource "tfe_variable" "enable_gcp_provider_auth" {
 # and TFC_GCP_WORKLOAD_PROVIDER_ID variables below if desired.
 #
 resource "tfe_variable" "tfc_gcp_workload_provider_name" {
-  for_each = toset(var.hcpt_workspace_name)
-  workspace_id  = tfe_workspace.ubuntu_workspace[each.key].id
+  #for_each = toset(var.hcpt_workspace_name)
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
 
   key      = "TFC_GCP_WORKLOAD_PROVIDER_NAME"
   value    =  google_iam_workload_identity_pool_provider.tfc_provider.name
@@ -218,8 +218,8 @@ resource "tfe_variable" "tfc_gcp_workload_provider_name" {
 # }
 
 resource "tfe_variable" "tfc_gcp_service_account_email" {
-  for_each = toset(var.hcpt_workspace_name)
-  workspace_id  = tfe_workspace.ubuntu_workspace[each.key].id
+  #for_each = toset(var.hcpt_workspace_name)
+  workspace_id  = tfe_workspace.ubuntu_workspace.id
 
   key      = "TFC_GCP_RUN_SERVICE_ACCOUNT_EMAIL"
   value    = google_service_account.tfc_service_account.email
