@@ -12,7 +12,7 @@ packer {
 #}
 variable "project_id" {
   type    = string
-  default = "hc-ed4fd9b5ba13459aa83e020e500"
+  default = "hc-8ceaefae6c1a495096c2916e3f9"
 }
 
 variable "zone" {

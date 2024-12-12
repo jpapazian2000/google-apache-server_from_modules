@@ -6,10 +6,10 @@ provider "google" {
   region  = "global"
 }
 
-provider "google-beta" {
-  project = var.gcp_project_id
-  region  = "global"
-}
+#provider "google-beta" {
+#  project = var.gcp_project_id
+#  region  = "global"
+#}
 
 # Data source used to get the project number programmatically.
 #
@@ -36,7 +36,7 @@ resource "random_pet" "tfc_pool" {
 #
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/iam_workload_identity_pool
 resource "google_iam_workload_identity_pool" "tfc_pool" {
-  provider                  = google-beta
+  #provider                  = google-beta
   workload_identity_pool_id = random_pet.tfc_pool.id
 }
 
@@ -46,7 +46,7 @@ resource "google_iam_workload_identity_pool" "tfc_pool" {
 #
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/iam_workload_identity_pool_provider
 resource "google_iam_workload_identity_pool_provider" "tfc_provider" {
-  provider                           = google-beta
+  #provider                           = google-beta
   workload_identity_pool_id          = google_iam_workload_identity_pool.tfc_pool.workload_identity_pool_id
   workload_identity_pool_provider_id = "my-tfc-provider-id"
   attribute_mapping = {
@@ -71,7 +71,8 @@ resource "google_iam_workload_identity_pool_provider" "tfc_provider" {
     # Uncomment the line below if you are specifying a custom value for the audience instead of using the default audience.
     # allowed_audiences = [var.tfc_gcp_audience]
   }
-  attribute_condition = "assertion.sub.startsWith(\"organization:${var.hcpt_organization}:project:${var.hcpt_project_name}:workspace:${var.hcpt_workspace_name}\")"
+  #attribute_condition = "assertion.sub.startsWith(\"organization:${var.hcpt_organization}:project:${var.hcpt_project_name}:workspace:${each.key}\")"
+  attribute_condition = "assertion.sub.startsWith(\"organization:${var.hcpt_organization}:project:${var.hcpt_project_name}\")"
 }
 
 # Creates a service account that will be used for authenticating to GCP.
