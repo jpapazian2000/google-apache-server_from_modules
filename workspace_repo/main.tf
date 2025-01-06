@@ -28,9 +28,17 @@ provider "google" {
 
 provider "hcp" {}
 
+locals {
+  valid_tags = ["dev", "int", "prod"]
+
+  matching_tags = [for tag in data.tfe.terraform.workspace.ubuntu_workspace.tag_names : tag if contains (local.valid_tags, tag)]
+
+  selected_tags = length(local.matching_tags) > 0 ? local.matching_tags[0] : "no-match"
+}
+
 data "hcp_packer_version" "ubuntu" {
     bucket_name = "ubuntu-apache-gcp"
-    channel_name = "prod"
+    channel_name = "${local.selected_tags}"
 }
 
 data "hcp_packer_artifact" "apache_gce" {
@@ -57,6 +65,14 @@ module "gcp-infra" {
     sysops_info = var.sysops_info
     prefix = var.prefix
 }
+
+#check "revocation_check"{
+#
+#}
+
+#check "image_version_check" {
+#
+#}
 
 
 
