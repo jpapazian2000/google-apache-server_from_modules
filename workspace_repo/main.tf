@@ -64,6 +64,7 @@ module "gcp-infra" {
     #subnet_id= module.gcp-network.vpc_subnet_id
     sysops_info = var.sysops_info
     prefix = var.prefix
+    company = "${local.selected_tags}"
 }
 
 #check "revocation_check"{
