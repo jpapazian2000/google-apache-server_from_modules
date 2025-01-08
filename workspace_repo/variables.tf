@@ -17,6 +17,15 @@ variable "sysops_info" {
 variable "prefix" {
      description = "prefix for all resources in this project"
 }
+
+variable "company" {
+     description = "for the content of the web page"
+}
+
+variable "color" {
+     description = "to make differences between env"
+}
+
 variable "subnet_prefix" {
     description = "subnet for the server to be deployed in"
 }
