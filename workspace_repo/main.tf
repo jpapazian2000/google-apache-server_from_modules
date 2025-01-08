@@ -38,7 +38,8 @@ provider "hcp" {}
 
 data "hcp_packer_version" "ubuntu" {
     bucket_name = "ubuntu-apache-gcp"
-    channel_name = "${local.selected_tags}"
+    #channel_name = "${local.selected_tags}"
+    channel_name = "${var.prefix}"
 }
 
 data "hcp_packer_artifact" "apache_gce" {
