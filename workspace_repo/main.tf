@@ -28,13 +28,13 @@ provider "google" {
 
 provider "hcp" {}
 
-locals {
-  valid_tags = ["dev", "int", "prod"]
+#locals {
+  #valid_tags = ["dev", "int", "prod"]
 
-  matching_tags = [for tag in data.tfe.terraform.workspace.ubuntu_workspace.tag_names : tag if contains (local.valid_tags, tag)]
+  #matching_tags = [for tag in data.tfe.terraform.workspace.ubuntu_workspace.tag_names : tag if contains (local.valid_tags, tag)]
 
-  selected_tags = length(local.matching_tags) > 0 ? local.matching_tags[0] : "no-match"
-}
+  #selected_tags = length(local.matching_tags) > 0 ? local.matching_tags[0] : "no-match"
+#}
 
 data "hcp_packer_version" "ubuntu" {
     bucket_name = "ubuntu-apache-gcp"
@@ -64,7 +64,8 @@ module "gcp-infra" {
     #subnet_id= module.gcp-network.vpc_subnet_id
     sysops_info = var.sysops_info
     prefix = var.prefix
-    company = "${local.selected_tags}"
+    #company = "${local.selected_tags}"
+    company = var.company
     color = var.color
 }
 
