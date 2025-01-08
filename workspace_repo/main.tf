@@ -65,6 +65,7 @@ module "gcp-infra" {
     sysops_info = var.sysops_info
     prefix = var.prefix
     company = "${local.selected_tags}"
+    color = var.color
 }
 
 #check "revocation_check"{
