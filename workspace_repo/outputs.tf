@@ -1,4 +1,4 @@
-output vm_ip {
+output "vm_ip" {
     value = module.gcp-infra.vm_ip
 }
 output "artifact_revocation_date" {
