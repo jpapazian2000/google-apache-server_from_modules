@@ -71,7 +71,7 @@ module "gcp-infra" {
 }
 check "revokation_Status" {
   assert {
-    condition = data.hcp_packer_artifact.apache_gce.revoke_at != 0
+    condition = data.hcp_packer_artifact.apache_gce.revoke_at == 0
     error_message = "the packer image used for this infra is revoked or scheduled for revokation. Please update your image asap"
   }
 }
