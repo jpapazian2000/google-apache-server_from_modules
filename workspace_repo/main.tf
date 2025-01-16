@@ -69,9 +69,9 @@ module "gcp-infra" {
     company = var.company
     color = var.color
 }
-check "revokation_Status" {
+check "revokation_status" {
   assert {
-    condition = data.hcp_packer_artifact.apache_gce.revoke_at == 0
+    condition = data.hcp_packer_artifact.apache_gce.revoke_at == null
     error_message = "the packer image used for this infra is revoked or scheduled for revokation. Please update your image asap"
   }
 }
