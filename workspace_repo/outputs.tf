@@ -1,5 +1,5 @@
 output "vm_ip" {
-    value = tostring(module.gcp-infra.vm_ip)
+    value = tolist(module.gcp-infra.vm_ip)
 }
 
 output "artifact_revocation_date" {
